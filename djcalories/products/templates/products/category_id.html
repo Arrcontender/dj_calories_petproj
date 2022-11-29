@@ -1,0 +1,52 @@
+{% extends 'products/base.html' %}
+
+{% block title %}
+<title>{{ category_name }}</title>
+{% endblock title %}
+
+
+{% block body %}
+    <h2 id="heads">Продукты из категории: {{ category_name }}</h2>
+    <hr>
+    <table>
+          <thead>
+                <tr>
+                  <th scope="col">Название</th>
+                  <th scope="col">Белки</th>
+                  <th scope="col">Жиры</th>
+                  <th scope="col">Углеводы</th>
+                  <th scope="col">Калории</th>
+                </tr>
+        </thead>
+        <tbody>
+            {% for p in page_obj %}
+                <tr>
+                    <td>{{p.name}}</td>
+                    <td>{{p.proteins}}</td>
+                    <td>{{p.fats}}</td>
+                    <td>{{p.carbohydrates}}</td>
+                    <td>{{p.calories}}</td>
+                    <td><button class="add_btn" type="button" name="button">+</button></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <hr>
+    <div class="pagination">
+        {% if page_obj.has_other_pages %}
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+            {% endif %}
+            {% for p in page_obj.paginator.page_range %}
+                {% if page_obj.number == p %}
+                    <a class="selected" href="?page={{ p }}">{{ p }}</a>
+                {% else %}
+                    <a href="?page={{ p }}">{{ p }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock body %}

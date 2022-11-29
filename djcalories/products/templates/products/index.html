@@ -1,0 +1,15 @@
+{% extends 'products/base.html' %}
+
+{% block title %}
+<title>Calories</title>
+{% endblock title %}
+
+
+{% block body %}
+    <h2 id="heads">Продукты по категориям</h2>
+    {% for category in categories %}
+        <ul class="border">
+            <li><a href="/{{category.id}}">{{ category.cat_name }}</a></li>
+        </ul>
+    {% endfor %}
+{% endblock body %}
