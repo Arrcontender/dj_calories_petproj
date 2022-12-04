@@ -1,0 +1,23 @@
+{% extends 'products/base.html' %}
+
+{% block title %}
+<title>Adding product</title>
+{% endblock title %}
+
+{% block body %}
+<div style="padding-left: 50px;">
+    <h1>{{ product.name }}</h1>
+    <h6>На 100г продукта</h6>
+    <hr>
+    <p>Белков: {{ product.proteins }}</p>
+    <p>Жиров: {{ product.fats }}</p>
+    <p>Углеводов: {{ product.carbohydrates }}</p>
+    <p>Калорий: {{ product.calories }}</p>
+    <form action="{% url 'calories_added' product.pk %}" method="post">
+        {% csrf_token %}
+        <label for="name">Добавить количество (в граммах):</label>
+        <input type="text" id="name" name="weight" required size="10">
+        <input class="add_btn" name="btn" type="submit">
+    </form>
+</div>
+{% endblock body %}

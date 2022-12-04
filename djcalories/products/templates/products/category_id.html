@@ -26,7 +26,12 @@
                     <td>{{p.fats}}</td>
                     <td>{{p.carbohydrates}}</td>
                     <td>{{p.calories}}</td>
-                    <td><button class="add_btn" type="button" name="button">+</button></td>
+                    <td>
+                        <form action="{% url 'adding_product' p.pk %}" method="post">
+                            {% csrf_token %}
+                            <input class="add_btn" name="btn" type="submit">
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -50,3 +55,5 @@
         {% endif %}
     </div>
 {% endblock body %}
+{% block scripts %}
+{% endblock scripts %}

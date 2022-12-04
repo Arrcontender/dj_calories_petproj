@@ -1,13 +1,13 @@
 {% extends 'products/base.html' %}
 
 {% block title %}
-<title>Profile</title>
+<title>Profile {{user.username}}</title>
 {% endblock title %}
 
 {% block body %}
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="registerbtn" type="submit">Войти</button>
-</form>
+<h1>{{user.username}}</h1>
+<h6>Добавленные операции</h6>
+{% for operation in operations %}
+<p>{{ operation }}</p>
+{% endfor %}
 {% endblock body %}

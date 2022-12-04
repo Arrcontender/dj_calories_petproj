@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -21,3 +21,18 @@ class Category(models.Model):
 
     def __str__(self):
         return self.cat_name
+
+
+class Calculator(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=False)
+    product = models.OneToOneField(Products, on_delete=models.PROTECT, unique=False)
+    weight = models.IntegerField()
+    total_proteins = models.DecimalField(max_digits=500, decimal_places=4)
+    total_fats = models.DecimalField(max_digits=500, decimal_places=4)
+    total_carbohydrates = models.DecimalField(max_digits=500, decimal_places=4)
+    total_calories = models.DecimalField(max_digits=500, decimal_places=4)
+
+    def __str__(self):
+        return self.total_calories
+
+
