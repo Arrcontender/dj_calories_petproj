@@ -24,15 +24,14 @@ class Category(models.Model):
 
 
 class Calculator(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=False)
-    product = models.OneToOneField(Products, on_delete=models.PROTECT, unique=False)
+    user = models.ManyToManyField(User, related_name='user_calculation')
+    product = models.ManyToManyField(Products)
     weight = models.IntegerField()
-    total_proteins = models.DecimalField(max_digits=500, decimal_places=4)
-    total_fats = models.DecimalField(max_digits=500, decimal_places=4)
-    total_carbohydrates = models.DecimalField(max_digits=500, decimal_places=4)
-    total_calories = models.DecimalField(max_digits=500, decimal_places=4)
+    total_proteins = models.DecimalField(max_digits=500, decimal_places=2)
+    total_fats = models.DecimalField(max_digits=500, decimal_places=2)
+    total_carbohydrates = models.DecimalField(max_digits=500, decimal_places=2)
+    total_calories = models.DecimalField(max_digits=500, decimal_places=2)
 
-    def __str__(self):
-        return self.total_calories
+
 
 

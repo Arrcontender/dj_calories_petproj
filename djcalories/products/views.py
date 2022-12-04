@@ -1,3 +1,5 @@
+import decimal
+
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -38,7 +40,7 @@ def category(request, id):
 
 def profile(request, pk):
     user = User.objects.all().get(pk=pk)
-    operations = Calculator.objects.all().filter(user_id=user.pk)
+    operations = user.user_calculation.all()
     context = {
         'user': user,
         'operations': operations,
@@ -80,44 +82,29 @@ def adding_product(request, pk):
         return render(request, 'products/adding_product.html', context)
     return redirect('category')
 
-# TODO got to fix this func
+
 def calories_added(request, pk):
     weight = request.POST['weight']
     product_pk = pk
     current_user = request.user
-    try:
-        print('kek')
-        # Calculator.objects.create(
-        #     user_id=current_user.pk,
-        #     product_id=product_pk,
-        #     weight=weight,
-        #     total_proteins=Products.objects.get(pk=product_pk).values('proteins') * weight,
-        #     total_fats=Products.objects.get(pk=product_pk).values('fats') * weight,
-        #     total_carbohydrates=Products.objects.get(pk=product_pk).values('carbohydrates') * weight,
-        #     total_calories=Products.objects.get(pk=product_pk).values('calories') * weight
-        #     ).save()
-        new_rec = Calculator()
-        new_rec.user_id = current_user.pk
-        print(current_user.pk)
-        new_rec.product_id = product_pk
-        print(product_pk)
-        new_rec.weight = weight
-        print(weight)
-        prod = Products.objects.get(pk=product_pk)
-        print(prod)
-        new_rec.total_proteins = F(prod.proteins) * weight
-        print(F(prod.proteins) + weight)
-        new_rec.total_fats = F(prod.fats) * weight
-        print(6)
-        new_rec.total_carbohydrates = F(prod.carbohydrates) * weight
-        print(7)
-        new_rec.total_calories = F(prod.calories) * weight
-        print(F('prod.calories')*weight)
-        new_rec.save()
-        print('Done')
-    except:
-        pass
-        # return HttpResponseNotFound('<h1>Ошибка при совершении операции, значение должно быть целочисленным</h1>')
+    product = Products.objects.get(pk=product_pk)
+    weight = int(weight) / 100
+    weight = decimal.Decimal(weight)
+    total_prots = product.proteins * weight
+    total_f = product.fats * weight
+    total_car = product.carbohydrates * weight
+    total_cal = product.calories * weight
+    x = Calculator.objects.create(
+        weight=weight,
+        total_proteins=total_prots,
+        total_fats=total_f,
+        total_carbohydrates=total_car,
+        total_calories=total_cal
+        )
+    x.user.add(current_user.pk)
+    x.product.add(product_pk)
+    x.save()
+    print('Well Done')
     return redirect('index')
 
 

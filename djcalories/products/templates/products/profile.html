@@ -7,7 +7,16 @@
 {% block body %}
 <h1>{{user.username}}</h1>
 <h6>Добавленные операции</h6>
+<ul>
 {% for operation in operations %}
-<p>{{ operation }}</p>
+    <li>{{ operation.product.first }}</li>
+        <ul>
+            <li>Порция: {{ operation.weight }} г</li>
+            <li>Калории: {{ operation.total_calories }} ккал</li>
+            <li>Белки: {{ operation.total_proteins }}</li>
+            <li>Жиры: {{ operation.total_fats }}</li>
+            <li>Углеводы: {{ operation.total_carbohydrates }}</li>
+        </ul>
 {% endfor %}
+</ul>
 {% endblock body %}
