@@ -27,6 +27,18 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-debug-toolbar"
+version = "3.8.1"
+description = "A configurable set of panels that display various debug information about the current request/response."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+django = ">=3.2.4"
+sqlparse = ">=0.2"
+
+[[package]]
 name = "paginator"
 version = "0.5.1"
 description = "Paginator for SQLAlchemy query object, list or iterable"
@@ -64,11 +76,12 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "bdce2147e07947d1f72aaa0be0d1085f80922a2ee77182c55ce8885b0e922d78"
+content-hash = "3d4648ba7c05b9c6a7cb0ca0f53954f2ef7c3339f3d76a6c2294d9ffaff09fe3"
 
 [metadata.files]
 asgiref = []
 django = []
+django-debug-toolbar = []
 paginator = []
 six = []
 sqlparse = []
