@@ -6,7 +6,8 @@
 
 {% block body %}
 <h1>{{user.username}}</h1>
-<h6>Добавленные операции</h6>
+<h3>Калорий за день: {{ total_calories_by_day }}</h3>
+<h6>Добавленные продукты за день</h6>
 <ul>
 {% for operation in operations %}
     <li>{{ operation.product.first }}</li>
@@ -16,6 +17,7 @@
             <li>Белки: {{ operation.total_proteins }}</li>
             <li>Жиры: {{ operation.total_fats }}</li>
             <li>Углеводы: {{ operation.total_carbohydrates }}</li>
+            <li>Дата и время: {{ operation.date }}</li>
         </ul>
 {% endfor %}
 </ul>

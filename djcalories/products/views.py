@@ -10,6 +10,8 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
 from django.http import HttpResponseNotFound
 from django.db.models import *
+from datetime import datetime
+
 
 from .models import Products, Category, Calculator
 from .forms import RegisterUserForm
@@ -40,10 +42,15 @@ def category(request, id):
 
 def profile(request, pk):
     user = User.objects.all().get(pk=pk)
-    operations = user.user_calculation.all()
+    today_day = datetime.now().day
+    operations = user.user_calculation.filter(date__day=today_day).order_by('date').reverse()
+    print(operations)
+    total_calories_by_day = sum([i.total_calories for i in operations])
+
     context = {
         'user': user,
         'operations': operations,
+        'total_calories_by_day': total_calories_by_day
     }
     return render(request, 'products/profile.html', context)
 
@@ -88,14 +95,14 @@ def calories_added(request, pk):
     product_pk = pk
     current_user = request.user
     product = Products.objects.get(pk=product_pk)
-    weight = int(weight) / 100
-    weight = decimal.Decimal(weight)
-    total_prots = product.proteins * weight
-    total_f = product.fats * weight
-    total_car = product.carbohydrates * weight
-    total_cal = product.calories * weight
+    mass = int(weight) / 100
+    mass = decimal.Decimal(mass)
+    total_prots = product.proteins * mass
+    total_f = product.fats * mass
+    total_car = product.carbohydrates * mass
+    total_cal = product.calories * mass
     x = Calculator.objects.create(
-        weight=weight,
+        weight=int(weight),
         total_proteins=total_prots,
         total_fats=total_f,
         total_carbohydrates=total_car,

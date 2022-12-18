@@ -31,6 +31,13 @@ class Calculator(models.Model):
     total_fats = models.DecimalField(max_digits=500, decimal_places=2)
     total_carbohydrates = models.DecimalField(max_digits=500, decimal_places=2)
     total_calories = models.DecimalField(max_digits=500, decimal_places=2)
+    date = models.DateTimeField(auto_now_add=True)
+
+
+class ProfileDataChanges(models.Model):
+    user = models.ManyToManyField(User)
+    body_weight = models.DecimalField(max_digits=15, decimal_places=1)
+    body_height = models.DecimalField(max_digits=15, decimal_places=1)
 
 
 
