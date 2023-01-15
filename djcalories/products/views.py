@@ -1,4 +1,6 @@
 import decimal
+from datetime import datetime
+import datetime
 
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
@@ -10,7 +12,6 @@ from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
 from django.http import HttpResponseNotFound
 from django.db.models import *
-from datetime import datetime
 
 
 from .models import Products, Category, Calculator
@@ -28,7 +29,6 @@ def category(request, id):
     category_name = Category.objects.get(pk=id)
     products_in_cat = Products.objects.all().filter(category=category_name).order_by('name')
     paginator = Paginator(products_in_cat, 50)
-
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -42,15 +42,14 @@ def category(request, id):
 
 def profile(request, pk):
     user = User.objects.all().get(pk=pk)
-    today_day = datetime.now().day
-    operations = user.user_calculation.filter(date__day=today_day).order_by('date').reverse()
-    print(operations)
+    today_day = datetime.date.today()
+    operations = user.user_calculation.filter(date__date=today_day).order_by('date').reverse()
     total_calories_by_day = sum([i.total_calories for i in operations])
 
     context = {
         'user': user,
         'operations': operations,
-        'total_calories_by_day': total_calories_by_day
+        'total_calories_by_day': total_calories_by_day,
     }
     return render(request, 'products/profile.html', context)
 
@@ -111,7 +110,6 @@ def calories_added(request, pk):
     x.user.add(current_user.pk)
     x.product.add(product_pk)
     x.save()
-    print('Well Done')
     return redirect('index')
 
 
